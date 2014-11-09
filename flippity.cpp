@@ -47,6 +47,19 @@ void consequences(Sound &correct, Sound &wrong, int &n_remaining, bool is_correc
     cout << n_remaining << " to go!" << endl;
 }
 
+int next_digit(int &last_digit, RandomInt &ri_digit)
+{
+    int i;
+
+    for (;;) {
+	i = ri_digit();
+	if (i != 8 && i != 0 && i != last_digit)
+	    break;
+    }
+    last_digit = i;
+    return i;
+}
+
 int main()
 {
     CImg < unsigned char >image(110, 200);
@@ -68,15 +81,11 @@ int main()
     correct.play();
     auto start = chrono::high_resolution_clock::now();
 
+    auto last_digit = -1;
+    auto i = next_digit(last_digit, ri_digit);
+
     for (; !main_disp.is_closed() && !main_disp.is_key(cimg::keyESC); ) {
 	bool flip = ri_flip();
-	int i;
-
-	for (;;) {
-	    i = ri_digit();
-	    if (i != 8 && i != 0)
-		break;
-	}
 
 	main_disp.wait();
 	if (main_disp.is_key(cimg::keySPACE)) {
@@ -118,6 +127,7 @@ int main()
 	    }
 	    if (n_remaining == 0)
 		break;
+	    i = next_digit(last_digit, ri_digit);
 	}
     }
 
