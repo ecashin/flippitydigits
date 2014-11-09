@@ -25,10 +25,7 @@ private:
 
 class Sound {
 public:
-    Sound(const char *nam) :fnam{nam} {
-	s = load_sample(nam);
-	cout << "loaded s:" << s << endl;
-    }
+    Sound(const char *nam) :fnam{nam} { s = load_sample(nam); }
     int play() { return play_sample(s, 128, 128, 1000, false); }
     ~Sound() { destroy_sample(s); }
 private:
@@ -109,14 +106,15 @@ int main()
 		}
 		if (main_disp.is_key(cimg::keyESC)) {
 		    cout << "ESC" << endl;
-		    goto end;
+		    n_remaining = 0;
+		    break;
 		}
 	    }
 	    if (n_remaining == 0)
 		break;
 	}
     }
-end:
+
     auto end = chrono::high_resolution_clock::now();
     auto duration = chrono::duration_cast<chrono::milliseconds>(end - start).count();
     cout << "You took " << (duration / 1000.0) << " seconds" << endl;
