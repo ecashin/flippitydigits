@@ -38,4 +38,5 @@ Compile with `make` or compile and run with,
     SPACE	advance to next trial
     f		respond that the number is "forward"
     b		respond that the number is "backward"
+    h		request a "help" display of all digits
     ESC		quit early

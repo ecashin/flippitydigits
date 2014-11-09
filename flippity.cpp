@@ -96,6 +96,12 @@ int main()
 	    // get the user response
 	    for (;;) {
 		main_disp.wait();
+		if (main_disp.is_key(cimg::keyH)) {
+		    image
+			.draw_text(10, image.height() - 20, "0123456789",
+				   purple, black, 1.0, 20)
+			.display(main_disp);
+		}
 		if (main_disp.is_key(cimg::keyF)) {
                     consequences(correct, wrong, n_remaining, !flip);
 		    break;
