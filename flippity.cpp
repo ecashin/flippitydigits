@@ -3,7 +3,8 @@
 //
 // sudo apt-get update &&
 // sudo apt-get install --install-suggests liballegro4{,-d{ev,oc}} &&
-// sudo apt-get install --install-suggests cimg-{examples,d{ev,oc}}
+// sudo apt-get install --install-suggests cimg-{examples,d{ev,oc}} &&
+// sudo apt-get install xemacs21-basesupport  # (for sounds)
 
 #include <chrono>
 #include <iostream>

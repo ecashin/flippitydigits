@@ -1,5 +1,9 @@
 # Flippity Digits
 
+A very simple game for learning to distinguish numbers that are
+forward from those that are backward.  I made this game for a child.
+She thought it was fun, and she improved quickly.
+
 ## Building
 
 See the flippity.cpp file for dependencies listed as Ubuntu packages.
