@@ -1,0 +1,47 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+  <head>
+    <title>Flippity Digits</title>
+    <link href="static/css/flippity.css" rel="stylesheet" type="text/css" media="all">
+    <script src="static/js/jquery-1.11.1.js"></script>
+    <script src="static/js/flippity.js"></script>
+    <script type="text/javascript">
+      $(document).ready(function () {
+        "use strict";
+        Flippity.start();
+      });
+    </script>
+  </head>
+  <body>
+    <h1>Flippity</h1>
+    <section class="container" id="flippity">
+      <div><figure>go</figure></div>
+      <div id="hint">0123456789</div>
+    </section>
+    <audio
+      src="static/media/Computer Error-SoundBible.com-1655839472.mp3"
+      id="incorrect_sound"
+      preload="auto"
+      type="audio/mpeg">
+      <p>No audio support in your browser.</p>
+    </audio>
+    <audio
+      id="correct_sound"
+      src="static/media/A-Tone-His_Self-1266414414.mp3"
+      preload="auto"
+      type="audio/mpeg">
+      <p>No audio support in your browser.</p>
+    </audio>
+    <div id="usage">
+      <p>Usage:</p>
+      <table>
+	  <tr><th>key</th><th>does...</th></tr>
+	  <tr><td>SPACE</td><td class="right-col">go to next digit</td></tr>
+	  <tr><td>h</td><td class="right-col">show hint</td></tr>
+	  <tr><td>f</td><td class="right-col">decide digit is "forward"</td></tr>
+	  <tr><td>b</td><td class="right-col">decide digit is "backwards"</td></tr>
+      </table>
+      <p>Enjoy!</p>
+    </div>
+  </body>
+</html>

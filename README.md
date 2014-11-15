@@ -4,6 +4,12 @@ A very simple game for learning to distinguish numbers that are
 forward from those that are backward.  I made this game for a child.
 She thought it was fun, and she improved quickly.
 
+## Two Implementations
+
+This distribution includes a web-based version of the game in web/ and
+a fun but somewhat delicate C++ implementation---delicate because of
+dependencies.
+
 ## Object of the Game
 
 Your time is printed at the end of the game.  The object is to get the
