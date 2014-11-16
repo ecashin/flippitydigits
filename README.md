@@ -74,3 +74,25 @@ Compile with `make` or compile and run with,
     b           respond that the number is "backward"
     h           request a "help" display of all digits
     ESC         quit early (C++ version only)
+
+## Sound Attribution for Web Version
+
+### The "Correct" Sound
+
+Title: A Tone
+
+http://soundbible.com/1815-A-Tone.html
+
+About: A single note to replace your default windows beep. nice calm and enchanting.
+
+Uploaded: 05.08.11 | License: Public Domain | Recorded by His Self
+
+### The "Incorrect" Sound
+
+http://soundbible.com/1127-Computer-Error.html
+
+Title: Computer Error
+
+About: Cool computer error sound effect that you can use to replace you operating system error sound or to note an error.
+
+Uploaded: 10.25.09 | License: Attribution 3.0 | Recorded by Mike Koenig

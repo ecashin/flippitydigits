@@ -33,18 +33,10 @@ module Flippity {
 	var wrong = $('#incorrect_sound')[0];
 
 	if (correct) {
-	    // http://soundbible.com/1815-A-Tone.html
-	    // Title: A Tone
-	    // About: A single note to replace your default windows beep. nice calm and enchanting.
-	    // Uploaded: 05.08.11 | License: Public Domain | Recorded by His Self
 	    right.load();
 	    right.play();
 	    n_remaining -= 1;
 	} else {
-	    // http://soundbible.com/1127-Computer-Error.html
-	    // Title: Computer Error
-	    // About: Cool computer error sound effect that you can use to replace you operating system error sound or to note an error.
-	    // Uploaded: 10.25.09 | License: Attribution 3.0 | Recorded by Mike Koenig
 	    wrong.load();
 	    wrong.play();
 	    n_remaining += 1;
