@@ -3,6 +3,7 @@ var Flippity;
 (function (Flippity) {
     var last_n = -1;
     var flip;
+    var game_start;
     function ok_digit(n) {
         return (n !== 8 && n !== 0 && n !== last_n);
     }
@@ -76,9 +77,9 @@ var Flippity;
         else if (e.charCode === 104) {
             $('#hint').show();
         }
-        console.log(e);
     }
     function start() {
+        game_start = +new Date();
         changeDigit();
         $('body').keypress(decisionHandler);
     }

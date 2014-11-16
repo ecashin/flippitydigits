@@ -1,10 +1,12 @@
 // flippity.ts - flippitydigits
 
 declare var $;
+declare var Date;
 
 module Flippity {
     var last_n: number = -1;
     var flip: boolean;
+    var game_start: number;
 
     function ok_digit(n: number): boolean {
 	return (n !== 8 && n !== 0 && n !== last_n);
@@ -80,6 +82,7 @@ module Flippity {
 	}
     }
     export function start(): void {
+	game_start = +new Date();
 	changeDigit();
 	$('body').keypress(decisionHandler);
     }
