@@ -1,12 +1,13 @@
 // flippity.ts - flippitydigits
 
 declare var $;
-declare var Date;
+// declare var Date;
 
 module Flippity {
     var last_n: number = -1;
     var flip: boolean;
-    var game_start: number;
+    var game_start: Date;
+    var n_remaining = 15;
 
     function ok_digit(n: number): boolean {
 	return (n !== 8 && n !== 0 && n !== last_n);
@@ -38,6 +39,7 @@ module Flippity {
 	    // Uploaded: 05.08.11 | License: Public Domain | Recorded by His Self
 	    right.load();
 	    right.play();
+	    n_remaining -= 1;
 	} else {
 	    // http://soundbible.com/1127-Computer-Error.html
 	    // Title: Computer Error
@@ -45,7 +47,11 @@ module Flippity {
 	    // Uploaded: 10.25.09 | License: Attribution 3.0 | Recorded by Mike Koenig
 	    wrong.load();
 	    wrong.play();
+	    n_remaining += 1;
 	}
+	$('#n_remaining').html(n_remaining);
+	$('body').off();
+	$('body').keypress(spaceHandler);
     }
     function changeDigit(): void {
 	var $cont = $('.container');
@@ -71,19 +77,25 @@ module Flippity {
     function decisionHandler(e): void {
 	if (e.charCode == 102) {
 	    resp(!flip);
-	    $('body').off();
-	    $('body').keypress(spaceHandler);
 	} else if (e.charCode === 98) {
 	    resp(flip);
-	    $('body').off();
-	    $('body').keypress(spaceHandler);
 	} else if (e.charCode === 104) {
 	    $('#hint').show();
 	}
+	if (n_remaining === 0) {
+	    var now = new Date();
+	    var elapsed = now.getTime() - game_start.getTime();
+	    var txt = '<p>You took ';
+	    txt += (elapsed / 1000.0).toString();
+	    txt += ' seconds to win!</p>';
+	    $('.outcome').html(txt);
+	    $('body').off();
+	}
     }
     export function start(): void {
-	game_start = +new Date();
+	game_start = new Date();
 	changeDigit();
+	$('#n_remaining').html(n_remaining);
 	$('body').keypress(decisionHandler);
     }
 }

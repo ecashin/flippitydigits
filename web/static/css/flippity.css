@@ -22,7 +22,7 @@ h1 {
 #flippity {
   width: 150px;
   height: 150px;
-  background-color: #808080;
+  background-color: #d3d3d3;
   position: absolute;
   transform-style: preserve-3d;
   font-size: 5em;
@@ -36,6 +36,18 @@ h1 {
   top: 0px;
   left: 12px;
   line-height: 0;
+}
+.status {
+  position: absolute;
+  top: 180px;
+  left: 14px;
+  font-size: 150%;
+}
+.outcome {
+  position: absolute;
+  top: 250px;
+  left: 14px;
+  font-size: 200%;
 }
 .flipped {
   -webkit-transform: rotateY(180deg);
