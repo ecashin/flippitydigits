@@ -10,16 +10,28 @@ This distribution includes a web-based version of the game in web/ and
 a fun but somewhat delicate C++ implementation---delicate because of
 dependencies.
 
+You can find a demo of the web version here:
+
+  http://cashinworks.com/flippitydigits/
+
 ## Object of the Game
 
 Your time is printed at the end of the game.  The object is to get the
 lowest time you can without hitting escape.
 
-I have noticed that children sometimes instead try to get as many
-crying sounds going as possible at the same time, so I suppose that's
-an alternative object of the game.  :)
+I have noticed that in the C++ version, children sometimes instead try
+to get as many crying sounds going as possible at the same time, so I
+suppose that's an alternative object of the game.  :)
 
 ## Dependencies
+
+### Web Flippity Dependencies
+
+The web version has no external depedencies.  It comes with transpiled
+CSS and JavaScript, built from the Stylus and TypeScript sources
+respectively.
+
+### C++ Flippity Dependencies
 
 The dependencies I know about are listed below as Ubuntu install
 commands.
@@ -32,6 +44,22 @@ commands.
 
 ## Building
 
+### Building and Running Web Flippity
+
+You can re-build the CSS and JavaScript and run the development HTTP
+server with,
+
+    cd web
+    make srv
+
+Then you can access the game at http://127.0.0.1:8118/
+
+The server is a pretty hilarious alternative to cool tools like gulp.
+It runs make on anything that the HTTP client tries to GET.  It only
+listens on the loopback IP address.
+
+### Building and Running C++ Flippity
+
 See the flippity.cpp file for dependencies listed as Ubuntu packages.
 Your system might have different names for the same software.
 
@@ -41,8 +69,8 @@ Compile with `make` or compile and run with,
 
 ## Play
 
-    SPACE	advance to next trial
-    f		respond that the number is "forward"
-    b		respond that the number is "backward"
-    h		request a "help" display of all digits
-    ESC		quit early
+    SPACE       advance to next trial
+    f           respond that the number is "forward"
+    b           respond that the number is "backward"
+    h           request a "help" display of all digits
+    ESC         quit early (C++ version only)

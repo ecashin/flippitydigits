@@ -67,6 +67,6 @@ if __name__ == '__main__':
         port = int(sys.argv[1])
     else:
         port = PORT
-    httpd = SocketServer.TCPServer(('', port), Handler)
+    httpd = SocketServer.TCPServer(('127.0.0.1', port), Handler)
     print 'serving on {}'.format(port)
     httpd.serve_forever()
