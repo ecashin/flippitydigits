@@ -46,17 +46,14 @@ commands.
 
 ### Building and Running Web Flippity
 
-You can re-build the CSS and JavaScript and run the development HTTP
-server with,
+You can copy the files in web/ into a place that a web server will
+make available, but if you want to change things, you can re-build the
+CSS and JavaScript and run the development HTTP server with,
 
     cd web
     make srv
 
-Then you can access the game at http://127.0.0.1:8118/
-
-The server is a pretty hilarious alternative to cool tools like gulp.
-It runs make on anything that the HTTP client tries to GET.  It only
-listens on the loopback IP address.
+Then you can access the game at http://127.0.0.1:8000/
 
 ### Building and Running C++ Flippity
 
