@@ -22,9 +22,6 @@ srv:
 show:
 	echo $(PROGS)
 
-$(CSSDIR)/%.css: %.styl
-	stylus < $< > $@
-
 stopwatch:
 	test -r watcher.pid
 	kill `cat watcher.pid`
@@ -38,3 +35,6 @@ $(JSDIR)/%.js: src/%.js
 
 clean:
 	rm -f $(CSSDIR)/flippity.css $(JSDIR)/*.js
+
+$(CSSDIR)/%.css: %.less
+	node_modules/.bin/lessc $< $@

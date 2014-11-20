@@ -1,4 +1,4 @@
-/* flippity.styl generates flippity.css */
+/* flippity.less generates flippity.css */
 #usage {
   float: right;
   padding: 20px;
@@ -22,7 +22,7 @@ h1 {
 #flippity {
   width: 150px;
   height: 150px;
-  background-color: #d3d3d3;
+  background-color: lightgray;
   position: absolute;
   transform-style: preserve-3d;
   font-size: 5em;
@@ -52,4 +52,3 @@ h1 {
 .flipped {
   -webkit-transform: rotateY(180deg);
 }
-

@@ -1,0 +1,8 @@
+{
+    "name": "flippity",
+    "description": "A digit flipp discernment game",
+    "author": "Ed L. Cashin",
+    "dependencies": {
+	"less": ""
+    }
+}
