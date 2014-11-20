@@ -3,7 +3,8 @@
 declare var $;
 // declare var Date;
 
-module Flippity {
+var Flippity;
+(function (Flippity) {
     var last_n: number = -1;
     var flip: boolean;
     var game_start: Date;
@@ -12,11 +13,13 @@ module Flippity {
     function ok_digit(n: number): boolean {
 	return (n !== 8 && n !== 0 && n !== last_n);
     }
-    export function randn(low: number, high: number): number {
+    function randn(low: number, high: number): number {
 	var spread: number = high - low;
 
 	return Math.floor(Math.random() * (spread+1)) + low;
     }
+    Flippity.randn = randn;
+
     function next_digit(): number {
 	var n: number = randn(0, 9);
 
@@ -84,10 +87,11 @@ module Flippity {
 	    $('body').off();
 	}
     }
-    export function start(): void {
+    function start(): void {
 	game_start = new Date();
 	changeDigit();
 	$('#n_remaining').html(n_remaining);
 	$('body').keypress(decisionHandler);
     }
-}
+    Flippity.start = start;
+})(Flippity || (Flippity = {}));

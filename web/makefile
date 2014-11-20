@@ -1,13 +1,23 @@
 PROG = flippity
+FLOW = $$HOME/git/flow/bin/flow
 JSDIR := static/js
 CSSDIR := static/css
-PROGS := $(addprefix $(JSDIR)/,$(addsuffix .js,$(basename $(wildcard *.ts))))
-.PHONY: show all srv clean
+.PHONY: show all srv watch clean
 
-all: $(PROGS) $(CSSDIR)/flippity.css
+WATCH_CHECK = kill -0 `cat watcher.pid`
 
-srv: all
-	./devsrv.py
+all: $(CSSDIR)/flippity.css
+	if ! $(WATCH_CHECK); then \
+	  make watch & \
+	  sleep 1; \
+	fi
+	while ! $(WATCH_CHECK); do \
+	  sleep 1; \
+	done
+	@echo The jsx watcher is running.  Stop with '"make stopwatch"'.
+
+srv:
+	python -mSimpleHTTPServer
 
 show:
 	echo $(PROGS)
@@ -15,8 +25,16 @@ show:
 $(CSSDIR)/%.css: %.styl
 	stylus < $< > $@
 
-$(JSDIR)/%.js: %.ts
-	tsc --out $@ $<
+stopwatch:
+	test -r watcher.pid
+	kill `cat watcher.pid`
+
+watch:
+	jsx --strip-types --harmony --watch src $(JSDIR) & \
+	  echo $$! > watcher.pid
+
+$(JSDIR)/%.js: src/%.js
+	$(FLOW) check $<
 
 clean:
-	rm -f $(PROGS)
+	rm -f $(CSSDIR)/flippity.css $(JSDIR)/*.js
