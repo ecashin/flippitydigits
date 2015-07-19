@@ -47,17 +47,59 @@ void consequences(Sound &correct, Sound &wrong, int &n_remaining, bool is_correc
     cout << n_remaining << " to go!" << endl;
 }
 
-int next_digit(int &last_digit, RandomInt &ri_digit)
+constexpr int letter_code(int character)
+{
+    return (character - 'A') + 10;
+}
+
+char next_alphanum(int &last_alphanum, RandomInt &ri_alphanumeric)
 {
     int i;
 
     for (;;) {
-	i = ri_digit();
-	if (i != 8 && i != 0 && i != last_digit)
-	    break;
+	i = ri_alphanumeric();
+	if (i == last_alphanum)
+	    continue;
+	switch (i) {
+	    default:
+		goto out;
+	    case 8:
+	    case 0:
+	    case letter_code('A'):
+	    case letter_code('H'):
+	    case letter_code('I'):
+	    case letter_code('M'):
+	    case letter_code('O'):
+	    case letter_code('T'):
+	    case letter_code('V'):
+	    case letter_code('W'):
+	    case letter_code('X'):
+	    case letter_code('Y'):
+	    case letter_code('i'):
+	    case letter_code('l'):
+	    case letter_code('o'):
+	    case letter_code('v'):
+	    case letter_code('w'):
+	    case letter_code('x'):
+		break;
+	}
     }
-    last_digit = i;
-    return i;
+out:
+    last_alphanum = i;
+    cerr << "debug:i: " << i << endl;
+    if (i <= 9)
+	return '0' + i;
+    i -= 10;
+    return 'A' + i;
+}
+
+const char *help(int alphanum)
+{
+    if (alphanum <= 9)
+	return "0123456789";
+    if (alphanum <= 9 + 26)
+	return "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    return "abcdefghijklmnopqrstuvwxyz";
 }
 
 int main()
@@ -67,7 +109,7 @@ int main()
     unsigned char purple[] { 255, 0, 255, };
     unsigned char black[] { 0, 0, 0, };
     RandomInt ri_flip {0, 1};
-    RandomInt ri_digit {0, 9};
+    RandomInt ri_alphanumeric {0, 9 + 26 * 2};
     int n_remaining = 15;
 
     allegro_init();
@@ -81,8 +123,8 @@ int main()
     correct.play();
     auto start = chrono::high_resolution_clock::now();
 
-    auto last_digit = -1;
-    auto i = next_digit(last_digit, ri_digit);
+    auto last_alphanum = -1;
+    auto i = next_alphanum(last_alphanum, ri_alphanumeric);
 
     for (; !main_disp.is_closed() && !main_disp.is_key(cimg::keyESC); ) {
 	bool flip = ri_flip();
@@ -92,13 +134,13 @@ int main()
 
 	    if (flip)
 		image.fill(0)
-		    .draw_text(10, 10, "%d", purple, black, 1.0, 200, i)
+		    .draw_text(10, 10, "%c", purple, black, 1.0, 200, i)
 		    .mirror('x')
 		    .blur(4)
 		    .display(main_disp);
 	    else
 		image.fill(0)
-		    .draw_text(10, 10, "%d", purple, black, 1.0, 200, i)
+		    .draw_text(10, 10, "%c", purple, black, 1.0, 200, i)
 		    .blur(4)
 		    .display(main_disp);
 
@@ -107,7 +149,7 @@ int main()
 		main_disp.wait();
 		if (main_disp.is_key(cimg::keyH)) {
 		    image
-			.draw_text(10, image.height() - 20, "0123456789",
+			.draw_text(10, image.height() - 20, help(i),
 				   purple, black, 1.0, 20)
 			.display(main_disp);
 		}
@@ -127,7 +169,7 @@ int main()
 	    }
 	    if (n_remaining == 0)
 		break;
-	    i = next_digit(last_digit, ri_digit);
+	    i = next_alphanum(last_alphanum, ri_alphanumeric);
 	}
     }
 
