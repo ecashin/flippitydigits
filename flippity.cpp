@@ -86,7 +86,7 @@ char next_alphanum(int &last_alphanum, RandomInt &ri_alphanumeric)
     }
 out:
     last_alphanum = i;
-    cerr << "debug:i: " << i << endl;
+
     if (i <= 9)
 	return '0' + i;
     i -= 10;
@@ -104,7 +104,7 @@ const char *help(int alphanum)
 
 int main()
 {
-    CImg < unsigned char >image(110, 200);
+    CImg < unsigned char >image(150, 250);
     CImgDisplay main_disp(image, "Click Inside to Start");
     unsigned char purple[] { 255, 0, 255, };
     unsigned char black[] { 0, 0, 0, };
@@ -128,19 +128,20 @@ int main()
 
     for (; !main_disp.is_closed() && !main_disp.is_key(cimg::keyESC); ) {
 	bool flip = ri_flip();
+	auto hoff = flip ? 30 : 20;
 
 	main_disp.wait();
 	if (main_disp.is_key(cimg::keySPACE)) {
 
 	    if (flip)
 		image.fill(0)
-		    .draw_text(10, 10, "%c", purple, black, 1.0, 200, i)
+		    .draw_text(hoff, 10, "%c", purple, black, 1.0, 200, i)
 		    .mirror('x')
 		    .blur(4)
 		    .display(main_disp);
 	    else
 		image.fill(0)
-		    .draw_text(10, 10, "%c", purple, black, 1.0, 200, i)
+		    .draw_text(hoff, 10, "%c", purple, black, 1.0, 200, i)
 		    .blur(4)
 		    .display(main_disp);
 
