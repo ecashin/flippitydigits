@@ -1,8 +1,8 @@
-# Flippity Digits
+# Flippity (formerly "Flippitydigits")
 
-A very simple game for learning to distinguish numbers that are
-forward from those that are backward.  I made this game for a child.
-She thought it was fun, and she improved quickly.
+A very simple game for learning to distinguish numbers and letters
+that are forward from those that are backward.  I made this game for a
+child.  She thought it was fun, and she improved quickly.
 
 ## Two Implementations
 
