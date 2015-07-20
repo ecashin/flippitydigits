@@ -47,9 +47,11 @@ void consequences(Sound &correct, Sound &wrong, int &n_remaining, bool is_correc
     cout << n_remaining << " to go!" << endl;
 }
 
-constexpr int letter_code(int character)
+int encode(int character)
 {
-    return (character - 'A') + 10;
+    if (character >= 'A' && character <= 'Z')
+	return (character - 'A') + 10;
+    return (character - 'a') + 10 + 26;
 }
 
 char next_alphanum(int &last_alphanum, RandomInt &ri_alphanumeric)
@@ -58,29 +60,31 @@ char next_alphanum(int &last_alphanum, RandomInt &ri_alphanumeric)
 
     for (;;) {
 	i = ri_alphanumeric();
-	if (i == last_alphanum)
+	if (i == last_alphanum
+	    || i == encode('A')
+	    || i == encode('H')
+	    || i == encode('I')
+	    || i == encode('M')
+	    || i == encode('O')
+	    || i == encode('T')
+	    || i == encode('U')
+	    || i == encode('V')
+	    || i == encode('W')
+	    || i == encode('X')
+	    || i == encode('Y')
+	    || i == encode('i')
+	    || i == encode('l')
+	    || i == encode('o')
+	    || i == encode('u')
+	    || i == encode('v')
+	    || i == encode('w')
+	    || i == encode('x'))
 	    continue;
 	switch (i) {
 	    default:
 		goto out;
 	    case 8:
 	    case 0:
-	    case letter_code('A'):
-	    case letter_code('H'):
-	    case letter_code('I'):
-	    case letter_code('M'):
-	    case letter_code('O'):
-	    case letter_code('T'):
-	    case letter_code('V'):
-	    case letter_code('W'):
-	    case letter_code('X'):
-	    case letter_code('Y'):
-	    case letter_code('i'):
-	    case letter_code('l'):
-	    case letter_code('o'):
-	    case letter_code('v'):
-	    case letter_code('w'):
-	    case letter_code('x'):
 		break;
 	}
     }
@@ -90,7 +94,10 @@ out:
     if (i <= 9)
 	return '0' + i;
     i -= 10;
-    return 'A' + i;
+    if (i < 26)
+	return i + 'A';
+    i -= 26;
+    return 'a' + i;
 }
 
 const char *help(int alphanum)
