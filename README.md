@@ -4,11 +4,14 @@ A very simple game for learning to distinguish numbers and letters
 that are forward from those that are backward.  I made this game for a
 child.  She thought it was fun, and she improved quickly.
 
+The C++ version of the game can only be run in the source directory
+(or another where the original_sounds directory appears).
+
 ## Two Implementations
 
-This distribution includes a web-based version of the game in web/ and
-a fun but somewhat delicate C++ implementation---delicate because of
-dependencies.
+This distribution includes a numbers-only web-based version of the
+game in web/ and a fun but somewhat delicate C++
+implementation---delicate because of dependencies.
 
 You can find a demo of the web version here:
 
