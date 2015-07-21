@@ -5,6 +5,7 @@
 #include <chrono>
 #include <iostream>
 #include <random>
+#include <map>
 
 // #include <allegro/sound.h>
 #include <allegro.h>
@@ -30,7 +31,7 @@ public:
     ~Sound() { destroy_sample(s); }
 private:
     SAMPLE *s;
-    const char *fnam;
+    string fnam;
 };
 
 void consequences(Sound &correct, Sound &wrong, int &n_remaining, bool is_correct)
@@ -109,6 +110,22 @@ const char *help(int alphanum)
     return "abcdefghijklmnopqrstuvwxyz";
 }
 
+void sndmap_destroy(map<char,Sound *> &sndmap)
+{
+    for (auto i = 'a'; i < 'z'; ++i)
+	delete sndmap[i];
+}
+
+void sndmap_init(map<char,Sound *> &sndmap)
+{
+    for (auto i = 'a'; i < 'z'; ++i) {
+	auto uc = 'A' + (i - 'a');
+	string fnam = string("original_sounds/") + i + ".wav";
+
+	sndmap[i] = sndmap[uc] = new Sound(fnam.c_str());
+    }
+}
+
 int main()
 {
     CImg < unsigned char >image(150, 250);
@@ -118,6 +135,7 @@ int main()
     RandomInt ri_flip {0, 1};
     RandomInt ri_alphanumeric {0, 9 + 26 * 2};
     int n_remaining = 15;
+    map<char,Sound *> sndmap;
 
     allegro_init();
     if (install_sound(DIGI_AUTODETECT, MIDI_NONE, 0) == -1) {
@@ -126,6 +144,7 @@ int main()
     }
     Sound correct { "/usr/share/xemacs21/xemacs-packages/etc/sounds/ding.wav" };
     Sound wrong { "/usr/share/xemacs21/xemacs-packages/etc/sounds/cry.wav" };
+    sndmap_init(sndmap);
 
     correct.play();
     auto start = chrono::high_resolution_clock::now();
@@ -139,6 +158,9 @@ int main()
 
 	main_disp.wait();
 	if (main_disp.is_key(cimg::keySPACE)) {
+	    auto snd = sndmap.find(i);
+	    if (snd != sndmap.end())
+		snd->second->play();
 
 	    if (flip)
 		image.fill(0)
@@ -185,5 +207,6 @@ int main()
     auto duration = chrono::duration_cast<chrono::milliseconds>(end - start).count();
     cout << "You took " << (duration / 1000.0) << " seconds" << endl;
 
+    sndmap_destroy(sndmap);
     return 0;
 }
