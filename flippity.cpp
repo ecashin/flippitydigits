@@ -177,6 +177,8 @@ int main()
 	    // get the user response
 	    for (;;) {
 		main_disp.wait();
+		if (main_disp.is_key(cimg::keyR) && snd != sndmap.end())
+		    snd->second->play();
 		if (main_disp.is_key(cimg::keyH)) {
 		    image
 			.draw_text(10, image.height() - 20, help(i),
