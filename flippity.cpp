@@ -18,10 +18,11 @@ using namespace cimg_library;
 class RandomInt {
 public:
     RandomInt(int low, int high) :dist{low, high} {}
+    RandomInt(int low, int high, long seed) :dist{low, high}, re(seed) {}
     int operator()() { return dist(re); }
 private:
-    default_random_engine re;
     uniform_int_distribution<> dist;
+    default_random_engine re;
 };
 
 class Sound {
@@ -133,7 +134,8 @@ int main()
     unsigned char purple[] { 255, 0, 255, };
     unsigned char black[] { 0, 0, 0, };
     RandomInt ri_flip {0, 1};
-    RandomInt ri_alphanumeric {0, 9 + 26 * 2};
+    auto start = chrono::high_resolution_clock::now();
+    RandomInt ri_alphanumeric {0, 9 + 26 * 2, start.time_since_epoch().count()};
     int n_remaining = 15;
     map<char,Sound *> sndmap;
 
@@ -147,7 +149,6 @@ int main()
     sndmap_init(sndmap);
 
     correct.play();
-    auto start = chrono::high_resolution_clock::now();
 
     auto last_alphanum = -1;
     auto i = next_alphanum(last_alphanum, ri_alphanumeric);
