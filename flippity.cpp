@@ -112,13 +112,13 @@ const char *help(int alphanum)
 
 void sndmap_destroy(map<char,Sound *> &sndmap)
 {
-    for (auto i = 'a'; i < 'z'; ++i)
+    for (auto i = 'a'; i <= 'z'; ++i)
 	delete sndmap[i];
 }
 
 void sndmap_init(map<char,Sound *> &sndmap)
 {
-    for (auto i = 'a'; i < 'z'; ++i) {
+    for (auto i = 'a'; i <= 'z'; ++i) {
 	auto uc = 'A' + (i - 'a');
 	string fnam = string("original_sounds/") + i + ".wav";
 
