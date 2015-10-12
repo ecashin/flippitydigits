@@ -52,8 +52,11 @@ var Flippity;
         if (randn(1, 2) === 1) {
             return nextDigit() + "";
         }
-        s = letters[randn(0, letters.length + 1)];
+        s = letters[randn(0, letters.length-1)];
         sound = $("#sound-" + s)[0];
+        if (!sound) {
+          throw "no sound";
+        }
         sound.load();
         sound.play();
         if (randn(1, 2) === 2) {
@@ -90,7 +93,7 @@ var Flippity;
         $('body').keypress(spaceHandler);
     }
     function changePrompt()       {
-        var $cont = $('.container');
+        var $cont = $('.flip-container');
         var $div = $cont.find('div');
         var $text = $div.find("figure");
         flip = randn(0, 1) == 1;
@@ -104,6 +107,7 @@ var Flippity;
         $text.html(nextOne());
     }
     function spaceHandler(e)       {
+        console.log('in spaceHandler');
         if (e.charCode == 32) {  // space
             changePrompt();
             $('body').off();
@@ -111,6 +115,7 @@ var Flippity;
         }
     }
     function decisionHandler(e)       {
+        console.log('in decisionHandler');
         if (e.charCode == 102) {  // f
             resp(!flip);
         } else if (e.charCode === 98) {  // b
