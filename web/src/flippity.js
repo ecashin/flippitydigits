@@ -9,7 +9,28 @@ var Flippity;
     var flip: boolean;
     var game_start: Date;
     var n_remaining = 15;
+    var letters = 'abcdefghijklmnopqrstuvwxyz';
 
+    function loadAudio(): void {
+        var i, $audio;
+
+        function path(letter) {
+            var p = "static/media/original_sounds/";
+            p += letter + ".wav";
+
+            return p;
+        }
+
+        function element(letter) {
+            return '<audio id="sound-' + letter + '">';
+        }
+
+        for (i = 0; i < letters.length; i ++) {
+            $audio = $(element(letters[i])).attr("src", path(letters[i]));
+            $audio.attr("preload", "auto").attr("type", "audio/wav");
+            $("body").append($audio);
+        }
+    }
     function ok_digit(n: number): boolean {
 	return (n !== 8 && n !== 0 && n !== last_n);
     }
@@ -20,7 +41,19 @@ var Flippity;
     }
     Flippity.randn = randn;
 
-    function next_digit(): number {
+    function nextOne(): string {
+        var s;
+
+        if (randn(1, 2) === 1) {
+            return nextDigit() + "";
+        }
+        s = letters[randn(0, letters.length + 1)];
+        if (randn(1, 2) === 2) {
+            s = s.toUpperCase();
+        }
+        return s;
+    }
+    function nextDigit(): number {
 	var n: number = randn(0, 9);
 
 	while (true) {
@@ -48,7 +81,7 @@ var Flippity;
 	$('body').off();
 	$('body').keypress(spaceHandler);
     }
-    function changeDigit(): void {
+    function changePrompt(): void {
 	var $cont = $('.container');
 	var $div = $cont.find('div');
 	var $text = $div.find("figure");
@@ -60,11 +93,11 @@ var Flippity;
 	} else {
 	    $text.removeClass('flipped');
 	}
-	$text.html(next_digit());
+	$text.html(nextOne());
     }
     function spaceHandler(e): void {
 	if (e.charCode == 32) {
-	    changeDigit();
+	    changePrompt();
 	    $('body').off();
 	    $('body').keypress(decisionHandler);
 	}
@@ -89,9 +122,10 @@ var Flippity;
     }
     function start(): void {
 	game_start = new Date();
-	changeDigit();
+	changePrompt();
 	$('#n_remaining').html(n_remaining);
 	$('body').keypress(decisionHandler);
+        loadAudio();
     }
     Flippity.start = start;
 })(Flippity || (Flippity = {}));
