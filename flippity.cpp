@@ -122,7 +122,7 @@ void sndmap_init(map<char,Sound *> &sndmap)
 {
     for (auto i = 'a'; i <= 'z'; ++i) {
 	auto uc = 'A' + (i - 'a');
-	string fnam = string("original_sounds/") + i + ".wav";
+	string fnam = string("web/static/media/original_sounds/") + i + ".wav";
 
 	sndmap[i] = sndmap[uc] = new Sound(fnam.c_str());
     }
