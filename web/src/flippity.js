@@ -32,12 +32,12 @@ var Flippity;
         }
     }
     function ok_digit(n: number): boolean {
-	return (n !== 8 && n !== 0 && n !== last_n);
+        return (n !== 8 && n !== 0 && n !== last_n);
     }
     function randn(low: number, high: number): number {
-	var spread: number = high - low;
+        var spread: number = high - low;
 
-	return Math.floor(Math.random() * (spread+1)) + low;
+        return Math.floor(Math.random() * (spread+1)) + low;
     }
     Flippity.randn = randn;
 
@@ -54,77 +54,77 @@ var Flippity;
         return s;
     }
     function nextDigit(): number {
-	var n: number = randn(0, 9);
+        var n: number = randn(0, 9);
 
-	while (true) {
-	    if (ok_digit(n))
-		break;
-	    n = randn(1, 9);
-	}
-	last_n = n;
-	return n;
+        while (true) {
+            if (ok_digit(n))
+                break;
+            n = randn(1, 9);
+        }
+        last_n = n;
+        return n;
     }
     function resp(correct: boolean): void {
-	var right = $('#correct_sound')[0];
-	var wrong = $('#incorrect_sound')[0];
+        var right = $('#correct_sound')[0];
+        var wrong = $('#incorrect_sound')[0];
 
-	if (correct) {
-	    right.load();
-	    right.play();
-	    n_remaining -= 1;
-	} else {
-	    wrong.load();
-	    wrong.play();
-	    n_remaining += 1;
-	}
-	$('#n_remaining').html(n_remaining);
-	$('body').off();
-	$('body').keypress(spaceHandler);
+        if (correct) {
+            right.load();
+            right.play();
+            n_remaining -= 1;
+        } else {
+            wrong.load();
+            wrong.play();
+            n_remaining += 1;
+        }
+        $('#n_remaining').html(n_remaining);
+        $('body').off();
+        $('body').keypress(spaceHandler);
     }
     function changePrompt(): void {
-	var $cont = $('.container');
-	var $div = $cont.find('div');
-	var $text = $div.find("figure");
-	flip = randn(0, 1) == 1;
+        var $cont = $('.container');
+        var $div = $cont.find('div');
+        var $text = $div.find("figure");
+        flip = randn(0, 1) == 1;
 
-	$('#hint').hide();
-	if (flip) {
-	    $text.addClass('flipped');
-	} else {
-	    $text.removeClass('flipped');
-	}
-	$text.html(nextOne());
+        $('#hint').hide();
+        if (flip) {
+            $text.addClass('flipped');
+        } else {
+            $text.removeClass('flipped');
+        }
+        $text.html(nextOne());
     }
     function spaceHandler(e): void {
-	if (e.charCode == 32) {
-	    changePrompt();
-	    $('body').off();
-	    $('body').keypress(decisionHandler);
-	}
+        if (e.charCode == 32) {
+            changePrompt();
+            $('body').off();
+            $('body').keypress(decisionHandler);
+        }
     }
     function decisionHandler(e): void {
-	if (e.charCode == 102) {
-	    resp(!flip);
-	} else if (e.charCode === 98) {
-	    resp(flip);
-	} else if (e.charCode === 104) {
-	    $('#hint').show();
-	}
-	if (n_remaining === 0) {
-	    var now = new Date();
-	    var elapsed = now.getTime() - game_start.getTime();
-	    var txt = '<p>You took ';
-	    txt += (elapsed / 1000.0).toString();
-	    txt += ' seconds to win!</p>';
-	    $('.outcome').html(txt);
-	    $('body').off();
-	}
+        if (e.charCode == 102) {
+            resp(!flip);
+        } else if (e.charCode === 98) {
+            resp(flip);
+        } else if (e.charCode === 104) {
+            $('#hint').show();
+        }
+        if (n_remaining === 0) {
+            var now = new Date();
+            var elapsed = now.getTime() - game_start.getTime();
+            var txt = '<p>You took ';
+            txt += (elapsed / 1000.0).toString();
+            txt += ' seconds to win!</p>';
+            $('.outcome').html(txt);
+            $('body').off();
+        }
     }
     function start(): void {
-	game_start = new Date();
-	changePrompt();
-	$('#n_remaining').html(n_remaining);
-	$('body').keypress(decisionHandler);
+        game_start = new Date();
+        changePrompt();
+        $('#n_remaining').html(n_remaining);
+        $('body').keypress(decisionHandler);
         loadAudio();
     }
     Flippity.start = start;
