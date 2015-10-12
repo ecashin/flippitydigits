@@ -31,6 +31,8 @@ var Flippity;
             $("body").append($audio);
         }
     }
+    Flippity.init = loadAudio;
+
     function ok_digit(n: number): boolean {
         return (n !== 8 && n !== 0 && n !== last_n);
     }
@@ -42,12 +44,15 @@ var Flippity;
     Flippity.randn = randn;
 
     function nextOne(): string {
-        var s;
+        var s, sound;
 
         if (randn(1, 2) === 1) {
             return nextDigit() + "";
         }
         s = letters[randn(0, letters.length + 1)];
+        sound = $("#sound-" + s)[0];
+        sound.load();
+        sound.play();
         if (randn(1, 2) === 2) {
             s = s.toUpperCase();
         }
@@ -125,7 +130,6 @@ var Flippity;
         changePrompt();
         $('#n_remaining').html(n_remaining);
         $('body').keypress(decisionHandler);
-        loadAudio();
     }
     Flippity.start = start;
 })(Flippity || (Flippity = {}));
