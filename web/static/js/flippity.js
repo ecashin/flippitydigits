@@ -104,18 +104,18 @@ var Flippity;
         $text.html(nextOne());
     }
     function spaceHandler(e)       {
-        if (e.charCode == 32) {
+        if (e.charCode == 32) {  // space
             changePrompt();
             $('body').off();
             $('body').keypress(decisionHandler);
         }
     }
     function decisionHandler(e)       {
-        if (e.charCode == 102) {
+        if (e.charCode == 102) {  // f
             resp(!flip);
-        } else if (e.charCode === 98) {
+        } else if (e.charCode === 98) {  // b
             resp(flip);
-        } else if (e.charCode === 104) {
+        } else if (e.charCode === 104) {  // h
             $('#hint').show();
         }
         if (n_remaining === 0) {
