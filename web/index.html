@@ -23,54 +23,62 @@
 <body>
     <h1>Flippity</h1>
     <div class="container-fluid">
-        <div class="flip-panel col-xs-6">
-            <section class="flip-container" id="flippity">
-                <div>
-                    <figure>go</figure>
-                </div>
-                <div id="hint">0123456789</div>
-            </section>
+        <div class="row">
+            <div class="flip-panel col-xs-6">
+                <section class="flip-container" id="flippity">
+                    <div>
+                        <figure>go</figure>
+                    </div>
+                    <div id="hint">0123456789</div>
+                </section>
+            </div>
+            <audio src="static/media/Computer Error-SoundBible.com-1655839472.mp3" id="incorrect_sound" preload="auto" type="audio/mpeg">
+                <p>No audio support in your browser.</p>
+            </audio>
+            <audio id="correct_sound" src="static/media/A-Tone-His_Self-1266414414.mp3" preload="auto" type="audio/mpeg">
+                <p>No audio support in your browser.</p>
+            </audio>
+            <div class="status">
+                <span id="n_remaining"></span>
+            </div>
+            <div class="outcome">
+            </div>
+            <div id="usage" class="col-xs-6">
+                <p>Usage:</p>
+                <table>
+                    <tr>
+                        <th>key</th>
+                        <th>does...</th>
+                    </tr>
+                    <tr>
+                        <td>SPACE</td>
+                        <td class="right-col">go to next letter/digit</td>
+                    </tr>
+                    <tr>
+                        <td>h</td>
+                        <td class="right-col">show hint</td>
+                    </tr>
+                    <tr>
+                        <td>f</td>
+                        <td class="right-col">decide letter/digit is "forward"</td>
+                    </tr>
+                    <tr>
+                        <td>b</td>
+                        <td class="right-col">decide letter/digit is "backwards"</td>
+                    </tr>
+                </table>
+                <p><a href="#" id="reload">Reload</a> the page to start a new game.</p>
+                <p>Enjoy!</p>
+            </div>
         </div>
-        <audio src="static/media/Computer Error-SoundBible.com-1655839472.mp3" id="incorrect_sound" preload="auto" type="audio/mpeg">
-            <p>No audio support in your browser.</p>
-        </audio>
-        <audio id="correct_sound" src="static/media/A-Tone-His_Self-1266414414.mp3" preload="auto" type="audio/mpeg">
-            <p>No audio support in your browser.</p>
-        </audio>
-        <div class="status">
-            <span id="n_remaining"></span>
+        <!-- /row -->
+        <div class="row">
+            <div class="col-xs-3">forward</div>
+            <div class="col-xs-3">backward</div>
         </div>
-        <div class="outcome">
-        </div>
-        <div id="usage" class="col-xs-6">
-            <p>Usage:</p>
-            <table>
-                <tr>
-                    <th>key</th>
-                    <th>does...</th>
-                </tr>
-                <tr>
-                    <td>SPACE</td>
-                    <td class="right-col">go to next letter/digit</td>
-                </tr>
-                <tr>
-                    <td>h</td>
-                    <td class="right-col">show hint</td>
-                </tr>
-                <tr>
-                    <td>f</td>
-                    <td class="right-col">decide letter/digit is "forward"</td>
-                </tr>
-                <tr>
-                    <td>b</td>
-                    <td class="right-col">decide letter/digit is "backwards"</td>
-                </tr>
-            </table>
-            <p><a href="#" id="reload">Reload</a> the page to start a new game.</p>
-            <p>Enjoy!</p>
-        </div>
+        <!-- /row -->
     </div>
-    <!-- container-fluid -->
+    <!-- /container-fluid -->
 </body>
 
 </html>
