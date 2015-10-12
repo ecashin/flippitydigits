@@ -9,9 +9,9 @@ The C++ version of the game can only be run in the source directory
 
 ## Two Implementations
 
-This distribution includes a numbers-only web-based version of the
-game in web/ and a fun but somewhat delicate C++
-implementation---delicate because of dependencies.
+This distribution includes a web-based version of the game in web/ and
+a fun but somewhat delicate C++ implementation---delicate because of
+dependencies.
 
 You can find a demo of the web version here:
 
@@ -72,8 +72,8 @@ Compile with `make` or compile and run with,
 ### Universal keys
 
     SPACE       advance to next trial
-    f           respond that the number is "forward"
-    b           respond that the number is "backward"
+    f           respond that the letter/digit is "forward"
+    b           respond that the letter/digit is "backward"
     h           request a "help" display of all digits
 
 ### C++ version keys
