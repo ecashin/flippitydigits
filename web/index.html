@@ -20,10 +20,11 @@
   </head>
   <body>
     <h1>Flippity</h1>
-    <section class="container" id="flippity">
-      <div><figure>go</figure></div>
-      <div id="hint">0123456789</div>
-    </section>
+    <div class="container-fluid">
+      <section class="flip-container" id="flippity">
+	<div><figure>go</figure></div>
+        <div id="hint">0123456789</div>
+      </section>
     <audio
       src="static/media/Computer Error-SoundBible.com-1655839472.mp3"
       id="incorrect_sound"
@@ -43,7 +44,7 @@
     </div>
     <div class="outcome">
     </div>
-    <div id="usage">
+    <div id="usage" class="col-xs-6">
       <p>Usage:</p>
       <table>
 	  <tr><th>key</th><th>does...</th></tr>
@@ -55,5 +56,6 @@
       <p><a href="#" id="reload">Reload</a> the page to start a new game.</p>
       <p>Enjoy!</p>
     </div>
+  </div> <!-- container-fluid -->
   </body>
 </html>

@@ -1,9 +1,12 @@
 /* flippity.less generates flippity.css */
 #usage {
-  float: right;
-  padding: 20px;
-  margin: 20px;
-  background-color: #f0d0c0;
+  display: none;
+  /*
+    float: right;
+    padding: 20px;
+    margin: 20px;
+    background-color: #f0d0c0;
+*/
 }
 .right-col {
   text-align: right;
