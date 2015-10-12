@@ -1,6 +1,7 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
-  <head>
+
+<head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -11,51 +12,63 @@
     <script src="static/bootstrap-3.3.5-dist/js/bootstrap.js"></script>
     <script src="static/js/flippity.js"></script>
     <script type="text/javascript">
-      $(document).ready(function () {
-        "use strict";
-        Flippity.init();
-        Flippity.start();
-      });
+        $(document).ready(function() {
+            "use strict";
+            Flippity.init();
+            Flippity.start();
+        });
     </script>
-  </head>
-  <body>
+</head>
+
+<body>
     <h1>Flippity</h1>
     <div class="container-fluid">
-      <section class="flip-container" id="flippity">
-	<div><figure>go</figure></div>
-        <div id="hint">0123456789</div>
-      </section>
-    <audio
-      src="static/media/Computer Error-SoundBible.com-1655839472.mp3"
-      id="incorrect_sound"
-      preload="auto"
-      type="audio/mpeg">
-      <p>No audio support in your browser.</p>
-    </audio>
-    <audio
-      id="correct_sound"
-      src="static/media/A-Tone-His_Self-1266414414.mp3"
-      preload="auto"
-      type="audio/mpeg">
-      <p>No audio support in your browser.</p>
-    </audio>
-    <div class="status">
-      <span id="n_remaining"></span>
+        <section class="flip-container" id="flippity">
+            <div>
+                <figure>go</figure>
+            </div>
+            <div id="hint">0123456789</div>
+        </section>
+        <audio src="static/media/Computer Error-SoundBible.com-1655839472.mp3" id="incorrect_sound" preload="auto" type="audio/mpeg">
+            <p>No audio support in your browser.</p>
+        </audio>
+        <audio id="correct_sound" src="static/media/A-Tone-His_Self-1266414414.mp3" preload="auto" type="audio/mpeg">
+            <p>No audio support in your browser.</p>
+        </audio>
+        <div class="status">
+            <span id="n_remaining"></span>
+        </div>
+        <div class="outcome">
+        </div>
+        <div id="usage" class="col-xs-6">
+            <p>Usage:</p>
+            <table>
+                <tr>
+                    <th>key</th>
+                    <th>does...</th>
+                </tr>
+                <tr>
+                    <td>SPACE</td>
+                    <td class="right-col">go to next letter/digit</td>
+                </tr>
+                <tr>
+                    <td>h</td>
+                    <td class="right-col">show hint</td>
+                </tr>
+                <tr>
+                    <td>f</td>
+                    <td class="right-col">decide letter/digit is "forward"</td>
+                </tr>
+                <tr>
+                    <td>b</td>
+                    <td class="right-col">decide letter/digit is "backwards"</td>
+                </tr>
+            </table>
+            <p><a href="#" id="reload">Reload</a> the page to start a new game.</p>
+            <p>Enjoy!</p>
+        </div>
     </div>
-    <div class="outcome">
-    </div>
-    <div id="usage" class="col-xs-6">
-      <p>Usage:</p>
-      <table>
-	  <tr><th>key</th><th>does...</th></tr>
-	  <tr><td>SPACE</td><td class="right-col">go to next letter/digit</td></tr>
-	  <tr><td>h</td><td class="right-col">show hint</td></tr>
-	  <tr><td>f</td><td class="right-col">decide letter/digit is "forward"</td></tr>
-	  <tr><td>b</td><td class="right-col">decide letter/digit is "backwards"</td></tr>
-      </table>
-      <p><a href="#" id="reload">Reload</a> the page to start a new game.</p>
-      <p>Enjoy!</p>
-    </div>
-  </div> <!-- container-fluid -->
-  </body>
+    <!-- container-fluid -->
+</body>
+
 </html>
