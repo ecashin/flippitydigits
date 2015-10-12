@@ -31,7 +31,10 @@ var Flippity;
             $("body").append($audio);
         }
     }
-    Flippity.init = loadAudio;
+    Flippity.init = function () {
+        loadAudio();
+        $("#reload").click(function () { location.reload(); });
+    }
 
     function ok_digit(n: number): boolean {
         return (n !== 8 && n !== 0 && n !== last_n);
