@@ -9,7 +9,7 @@ var Flippity;
     var flip: boolean;
     var game_start: Date;
     var n_remaining = 15;
-    var letters = 'abcdefghijklmnopqrstuvwxyz';
+    var letters = 'BCDEFGJKLNPQRSZabcdefghjklmnpqrstyz';
 
     function handlersOff() {
         $('body').off();
@@ -89,15 +89,12 @@ var Flippity;
             return nextDigit() + "";
         }
         s = letters[randn(0, letters.length-1)];
-        sound = $("#sound-" + s)[0];
+        sound = $("#sound-" + s.toLowerCase())[0];
         if (!sound) {
           throw "no sound";
         }
         sound.load();
         sound.play();
-        if (randn(1, 2) === 2) {
-            s = s.toUpperCase();
-        }
         return s;
     }
     function nextDigit(): number {
