@@ -9,7 +9,7 @@ var Flippity;
     var flip         ;
     var game_start      ;
     var n_remaining = 15;
-    var letters = 'BCDEFGJKLNPQRSZabcdefghjklmnpqrstyz';
+    var letters = 'BCDEFGJKLNPQRSZabcdefghjkmnpqrstyz';
 
     function handlersOff() {
         $('body').off();

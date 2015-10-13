@@ -30,10 +30,8 @@ h1 {
   font-size: 150%;
 }
 .outcome {
-  position: absolute;
-  top: 250px;
-  left: 14px;
   font-size: 200%;
+  padding: 2px;
 }
 .flipped {
   -webkit-transform: rotateY(180deg);
