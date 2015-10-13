@@ -15,12 +15,14 @@ var Flippity;
         $('body').off();
         $('.forward').off();
         $('.backward').off();
+        $('.next').off();
     }
 
     function decisionMode() {
         handlersOff();
         $('body').keypress(decisionHandler);
-        $('button').removeClass('disabled');
+        $('button.next').addClass('disabled');
+        $('button.next').removeClass('active');
         $('.forward').click(function (e) {
             e.charCode = 'f'.charCodeAt(0);
             return decisionHandler(e);
@@ -29,13 +31,19 @@ var Flippity;
             e.charCode = 'b'.charCodeAt(0);
             return decisionHandler(e);
         });
-        $('button').removeClass('disabled');
+        $('button.decision').removeClass('disabled');
     }
 
     function advanceMode() {
         handlersOff();
-        $('button').removeClass('active');
-        $('button').addClass('disabled');
+        $('button.decision').removeClass('active');
+        $('button.decision').addClass('disabled');
+        $('button.next').click(function (e) {
+            e.charCode = 'n'.charCodeAt(0);
+            return nextHandler(e);
+        });
+        $('button.next').removeClass('disabled');
+        $('button.next').addClass('active');
         $('body').keypress(nextHandler);
     }
 
