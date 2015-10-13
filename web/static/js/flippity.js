@@ -11,6 +11,34 @@ var Flippity;
     var n_remaining = 15;
     var letters = 'abcdefghijklmnopqrstuvwxyz';
 
+    function handlersOff() {
+        $('body').off();
+        $('.forward').off();
+        $('.backward').off();
+    }
+
+    function decisionMode() {
+        handlersOff();
+        $('body').keypress(decisionHandler);
+        $('button').removeClass('disabled');
+        $('.forward').click(function (e) {
+            e.charCode = 'f'.charCodeAt(0);
+            return decisionHandler(e);
+        });
+        $('.backward').click(function (e) {
+            e.charCode = 'b'.charCodeAt(0);
+            return decisionHandler(e);
+        });
+        $('button').removeClass('disabled');
+    }
+
+    function advanceMode() {
+        handlersOff();
+        $('button').removeClass('active');
+        $('button').addClass('disabled');
+        $('body').keypress(nextHandler);
+    }
+
     function loadAudio()       {
         var i, $audio;
 
@@ -89,8 +117,7 @@ var Flippity;
             n_remaining += 1;
         }
         $('#n_remaining').html(n_remaining);
-        $('body').off();
-        $('body').keypress(spaceHandler);
+        advanceMode();
     }
     function changePrompt()       {
         var $cont = $('.flip-container');
@@ -106,21 +133,22 @@ var Flippity;
         }
         $text.html(nextOne());
     }
-    function spaceHandler(e)       {
-        console.log('in spaceHandler');
-        if (e.charCode == 32) {  // space
+    function nextHandler(e)       {
+        console.log(['in nextHandler', e]);
+        $('body').focus();
+        if (e.charCode == 'n'.charCodeAt(0)) {
             changePrompt();
-            $('body').off();
-            $('body').keypress(decisionHandler);
+            decisionMode();
         }
+        return false;
     }
     function decisionHandler(e)       {
-        console.log('in decisionHandler');
-        if (e.charCode == 102) {  // f
+        console.log(['in decisionHandler', e]);
+        if (e.charCode == 'f'.charCodeAt(0)) {
             resp(!flip);
-        } else if (e.charCode === 98) {  // b
+        } else if (e.charCode === 'b'.charCodeAt(0)) {
             resp(flip);
-        } else if (e.charCode === 104) {  // h
+        } else if (e.charCode === 'h'.charCodeAt(0)) {
             $('#hint').show();
         }
         if (n_remaining === 0) {
@@ -130,14 +158,14 @@ var Flippity;
             txt += (elapsed / 1000.0).toString();
             txt += ' seconds to win!</p>';
             $('.outcome').html(txt);
-            $('body').off();
+            handlersOff();
         }
     }
     function start()       {
         game_start = new Date();
         changePrompt();
         $('#n_remaining').html(n_remaining);
-        $('body').keypress(decisionHandler);
+        decisionMode();
     }
     Flippity.start = start;
 })(Flippity || (Flippity = {}));
