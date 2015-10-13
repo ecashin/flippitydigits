@@ -11,31 +11,18 @@ h1 {
   font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
   font-weight: 300;
 }
-/* http://desandro.github.io/3dtransforms/docs/card-flip.html */
 .flip-container {
   position: relative;
-  perspective: 800px;
 }
 #flippity {
-  width: 150px;
-  height: 150px;
   background-color: lightgray;
-  position: absolute;
   transform-style: preserve-3d;
   font-size: 5em;
 }
 #hint {
   font-size: 35%;
 }
-#flippity figure {
-  display: block;
-  position: absolute;
-  top: 0px;
-  left: 12px;
-  line-height: 0;
-}
 .status {
-  position: absolute;
   top: 180px;
   left: 14px;
   font-size: 150%;
