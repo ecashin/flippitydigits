@@ -17,6 +17,10 @@ You can find a demo of the web version here:
 
   http://cashinworks.com/flippitydigits/
 
+... but please note that the CSS for text transforms don't always work
+correctly on mobile devices.  On Android Chrome and Android FireFox,
+the reversed digits and letters appear as invisible.
+
 ## Object of the Game
 
 Your time is printed at the end of the game.  The object is to get the
