@@ -48,7 +48,7 @@ var Flippity;
     }
 
     function loadAudio()       {
-        var i, $audio;
+        var i, $audio, loaded = {}, lc;
 
         function path(letter) {
             var p = "static/media/original_sounds/";
@@ -62,9 +62,13 @@ var Flippity;
         }
 
         for (i = 0; i < letters.length; i ++) {
-            $audio = $(element(letters[i])).attr("src", path(letters[i]));
-            $audio.attr("preload", "auto").attr("type", "audio/wav");
-            $("body").append($audio);
+            lc = letters[i].toLowerCase();
+            if (!loaded[lc]) {
+                $audio = $(element(lc)).attr("src", path(lc));
+                $audio.attr("preload", "auto").attr("type", "audio/wav");
+                $("body").append($audio);
+                loaded[lc] = true;
+            }
         }
     }
     Flippity.init = function () {
