@@ -97,7 +97,8 @@ var Flippity;
         if (!sound) {
           throw "no sound";
         }
-        sound.load();
+        sound.pause();
+        sound.currentTime = 0;
         sound.play();
         return s;
     }
