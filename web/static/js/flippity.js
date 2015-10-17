@@ -5,7 +5,7 @@
 
 var Flippity;
 (function (Flippity) {
-    var last_n         = -1;
+    var lastOne = '.';
     var flip         ;
     var game_start      ;
     var n_remaining = 15;
@@ -90,9 +90,6 @@ var Flippity;
         $("#reload").click(function () { location.reload(); });
     };
 
-    function ok_digit(n        )          {
-        return (n !== last_n);
-    }
     function randn(low        , high        )         {
         var spread         = high - low;
 
@@ -104,30 +101,43 @@ var Flippity;
         var s, sound;
 
         if (randn(1, 2) === 1) {
-            s = digits[nextDigit()] + "";
+            s = nextDigit();
             onWrong = function () { digits += s + s; };
             return s;
         }
-        s = letters[randn(0, letters.length-1)];
+        s = nextLetter();
         sound = $("#sound-" + s.toLowerCase())[0];
         if (!sound) {
           throw "no sound";
         }
         playFromStart(sound);
-        onWrong = function () { letters += s + s; }
+        onWrong = function () { letters += s + s; };
         return s;
     }
+    function nextLetter()         {
+        var n         = randn(0, letters.length-1);
+
+        while (true) {
+            if (letters[n] !== lastOne) {
+                break;
+            }
+            n = randn(0, letters.length-1);
+        }
+        lastOne = letters[n];
+        return lastOne;
+    }
+
     function nextDigit()         {
         var n         = randn(0, digits.length-1);
 
         while (true) {
-            if (ok_digit(n)) {
+            if (digits[n] !== lastOne) {
                 break;
             }
             n = randn(0, digits.length-1);
         }
-        last_n = n;
-        return n;
+        lastOne = digits[n];
+        return lastOne;
     }
     function resp(correct         )       {
         var right = $('#correct_sound')[0];
@@ -161,7 +171,6 @@ var Flippity;
         $text.html(nextOne());
     }
     function nextHandler(e)       {
-        console.log(['in nextHandler', e]);
         $('body').focus();
         if (e.charCode == 'n'.charCodeAt(0)) {
             changePrompt();
@@ -170,7 +179,6 @@ var Flippity;
         return false;
     }
     function decisionHandler(e)       {
-        console.log(['in decisionHandler', e]);
         if (e.charCode == 'f'.charCodeAt(0)) {
             resp(!flip);
         } else if (e.charCode === 'b'.charCodeAt(0)) {
