@@ -10,6 +10,8 @@ var Flippity;
     var game_start      ;
     var n_remaining = 15;
     var letters = 'BCDEFGJKLNPQRSZabcdefghjkmnpqrstyz';
+    var digits = '12345679';
+    var onWrong;
 
     function ensureLoaded(snd) {
         if (snd.readyState !== snd.HAVE_ENOUGH_DATA) {
@@ -89,7 +91,7 @@ var Flippity;
     };
 
     function ok_digit(n        )          {
-        return (n !== 8 && n !== 0 && n !== last_n);
+        return (n !== last_n);
     }
     function randn(low        , high        )         {
         var spread         = high - low;
@@ -102,7 +104,9 @@ var Flippity;
         var s, sound;
 
         if (randn(1, 2) === 1) {
-            return nextDigit() + "";
+            s = digits[nextDigit()] + "";
+            onWrong = function () { digits += s + s; };
+            return s;
         }
         s = letters[randn(0, letters.length-1)];
         sound = $("#sound-" + s.toLowerCase())[0];
@@ -110,15 +114,17 @@ var Flippity;
           throw "no sound";
         }
         playFromStart(sound);
+        onWrong = function () { letters += s + s; }
         return s;
     }
     function nextDigit()         {
-        var n         = randn(0, 9);
+        var n         = randn(0, digits.length-1);
 
         while (true) {
-            if (ok_digit(n))
+            if (ok_digit(n)) {
                 break;
-            n = randn(1, 9);
+            }
+            n = randn(0, digits.length-1);
         }
         last_n = n;
         return n;
@@ -131,6 +137,9 @@ var Flippity;
             playFromStart(right);
             n_remaining -= 1;
         } else {
+            onWrong();
+            console.log(letters);
+            console.log(digits);
             playFromStart(wrong);
             n_remaining += 1;
         }
@@ -186,4 +195,6 @@ var Flippity;
         decisionMode();
     }
     Flippity.start = start;
+    Flippity.letters = letters;
+    Flippity.digits = digits;
 })(Flippity || (Flippity = {}));
