@@ -11,6 +11,18 @@ var Flippity;
     var n_remaining = 15;
     var letters = 'BCDEFGJKLNPQRSZabcdefghjkmnpqrstyz';
 
+    function ensureLoaded(snd) {
+        if (snd.readyState !== snd.HAVE_ENOUGH_DATA) {
+          snd.load();
+        }
+    }
+    function playFromStart(snd) {
+        ensureLoaded(snd);
+        snd.pause();
+        snd.currentTime = 0;
+        snd.play();
+    }
+
     function handlersOff() {
         $('body').off();
         $('.forward').off();
@@ -74,7 +86,7 @@ var Flippity;
     Flippity.init = function () {
         loadAudio();
         $("#reload").click(function () { location.reload(); });
-    }
+    };
 
     function ok_digit(n        )          {
         return (n !== 8 && n !== 0 && n !== last_n);
@@ -97,8 +109,7 @@ var Flippity;
         if (!sound) {
           throw "no sound";
         }
-        sound.load();
-        sound.play();
+        playFromStart(sound);
         return s;
     }
     function nextDigit()         {
@@ -117,12 +128,10 @@ var Flippity;
         var wrong = $('#incorrect_sound')[0];
 
         if (correct) {
-            right.load();
-            right.play();
+            playFromStart(right);
             n_remaining -= 1;
         } else {
-            wrong.load();
-            wrong.play();
+            playFromStart(wrong);
             n_remaining += 1;
         }
         $('#n_remaining').html(n_remaining);
