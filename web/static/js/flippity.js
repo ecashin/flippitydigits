@@ -9,8 +9,9 @@ var Flippity;
     var flip         ;
     var game_start      ;
     var n_remaining = 15;
-    var letters = 'BCDEFGJKLNPQRSZabcdefghjkmnpqrstyz';
-    var digits = '12345679';
+    var storage;                // set in Flippity.init
+    var defaultLetters = 'BCDEFGJKLNPQRSZabcdefghjkmnpqrstyz';
+    var defaultDigits = '12345679';
     var onWrong;
 
     function ensureLoaded(snd) {
@@ -61,6 +62,12 @@ var Flippity;
         $('body').keypress(nextHandler);
     }
 
+    function loadState()       {
+        storage = window.localStorage || {};
+        storage.letters = storage.letters || defaultLetters;
+        storage.digits = storage.digits || defaultDigits;
+    }
+
     function loadAudio()       {
         var i, $audio, loaded = {}, lc;
 
@@ -75,8 +82,8 @@ var Flippity;
             return '<audio id="sound-' + letter + '">';
         }
 
-        for (i = 0; i < letters.length; i ++) {
-            lc = letters[i].toLowerCase();
+        for (i = 0; i < storage.letters.length; i ++) {
+            lc = storage.letters[i].toLowerCase();
             if (!loaded[lc]) {
                 $audio = $(element(lc)).attr("src", path(lc));
                 $audio.attr("preload", "auto").attr("type", "audio/wav");
@@ -86,6 +93,7 @@ var Flippity;
         }
     }
     Flippity.init = function () {
+        loadState();
         loadAudio();
         $("#reload").click(function () { location.reload(); });
     };
@@ -102,7 +110,7 @@ var Flippity;
 
         if (randn(1, 2) === 1) {
             s = nextDigit();
-            onWrong = function () { digits += s + s; };
+            onWrong = function () { storage.digits += s + s; };
             return s;
         }
         s = nextLetter();
@@ -111,32 +119,32 @@ var Flippity;
           throw "no sound";
         }
         playFromStart(sound);
-        onWrong = function () { letters += s + s; };
+        onWrong = function () { storage.letters += s + s; };
         return s;
     }
     function nextLetter()         {
-        var n         = randn(0, letters.length-1);
+        var n         = randn(0, storage.letters.length-1);
 
         while (true) {
-            if (letters[n] !== lastOne) {
+            if (storage.letters[n] !== lastOne) {
                 break;
             }
-            n = randn(0, letters.length-1);
+            n = randn(0, storage.letters.length-1);
         }
-        lastOne = letters[n];
+        lastOne = storage.letters[n];
         return lastOne;
     }
 
     function nextDigit()         {
-        var n         = randn(0, digits.length-1);
+        var n         = randn(0, storage.digits.length-1);
 
         while (true) {
-            if (digits[n] !== lastOne) {
+            if (storage.digits[n] !== lastOne) {
                 break;
             }
-            n = randn(0, digits.length-1);
+            n = randn(0, storage.digits.length-1);
         }
-        lastOne = digits[n];
+        lastOne = storage.digits[n];
         return lastOne;
     }
     function resp(correct         )       {
@@ -148,8 +156,8 @@ var Flippity;
             n_remaining -= 1;
         } else {
             onWrong();
-            console.log(letters);
-            console.log(digits);
+            console.log(storage.letters);
+            console.log(storage.digits);
             playFromStart(wrong);
             n_remaining += 1;
         }
@@ -203,6 +211,4 @@ var Flippity;
         decisionMode();
     }
     Flippity.start = start;
-    Flippity.letters = letters;
-    Flippity.digits = digits;
 })(Flippity || (Flippity = {}));
