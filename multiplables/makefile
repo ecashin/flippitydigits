@@ -7,8 +7,8 @@ LIBS = -lboost_program_options
 
 .PHONY: run
 
-run: multiplables
-	./$<
-
 multiplables: main.cc
 	g++ $(CPPFLAGS) $(CFLAGS) $(LDFLAGS) -o $@ $< $(LIBS)
+
+run: multiplables
+	./$<
