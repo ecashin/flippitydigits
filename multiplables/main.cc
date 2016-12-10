@@ -1,6 +1,8 @@
+#include <boost/date_time/posix_time/posix_time.hpp>
 #include <boost/program_options.hpp>
 
 namespace po = boost::program_options;
+namespace pt = boost::posix_time;
 
 #include <iostream>
 #include <random>
@@ -15,10 +17,12 @@ public:
 int main(int argc, char *argv[])
 {
     int max_factor;
+    double max_seconds;
     po::options_description description("allowed options");
     description.add_options()
             ("help", "print help message")
-            ("max", po::value<int>(&max_factor)->default_value(12), "maximum factor");
+            ("max", po::value<int>(&max_factor)->default_value(12), "maximum factor")
+            ("seconds", po::value<double>(&max_seconds)->default_value(5.0), "max seconds for response");
     po::variables_map vm;
     po::store(po::parse_command_line(argc, argv, description), vm);
     po::notify(vm);
@@ -27,6 +31,7 @@ int main(int argc, char *argv[])
         std::cout << description << std::endl;
         return 0;
     }
+    std::cout << "seconds: " << max_seconds << std::endl;
 
     std::vector<factor_pair> v;
     std::default_random_engine rng;
@@ -39,25 +44,33 @@ int main(int argc, char *argv[])
 		}
     }
 
-    for (;;) {
-	int selection = std::uniform_int_distribution<int>{0, ((int)v.size())-1}(rng);
-	factor_pair& p = v[selection];
-	int correct_answer = p.left * p.right;
-	int answer;
-	std::cout << p.left << " x " << p.right << std::endl;
-	std::cin >> answer;
-	if (std::cin.eof())
-	    break;
-	if (!std::cin.good()) {
-	    std::cout << "Whatever." << std::endl;
-	    continue;
-	}
-	std::string feedback("Correct!");
-	if (answer != correct_answer) {
-	    feedback = "NO!";
-	    v.push_back(p);
-	}
-	std::cout << feedback << std::endl;
+    while (v.size() > 0) {
+        int selection = std::uniform_int_distribution<int>{0, ((int)v.size())-1}(rng);
+        factor_pair p = v[selection];
+        int correct_answer = p.left * p.right;
+        int answer;
+        auto before = pt::microsec_clock::local_time();
+        std::cout << p.left << " x " << p.right << std::endl;
+        std::cin >> answer;
+        auto delay = pt::microsec_clock::local_time() - before;
+        if (std::cin.eof())
+            break;
+        if (!std::cin.good()) {
+            std::cout << "Whatever." << std::endl;
+            continue;
+        }
+        std::string feedback("Correct!");
+        if (answer != correct_answer) {
+            feedback = "NO!";
+            v.push_back(p);
+        } else if (delay.total_milliseconds() <= max_seconds * 1000) {
+            std::cout << "You're fast!" << std::endl;
+            v.erase(std::remove_if(v.begin(), v.end(), [p](const factor_pair& f) {
+                return (p.left == f.left && p.right == f.right) ||
+                        (p.left == f.right && p.right == f.left);
+            }), v.end());
+        }
+        std::cout << feedback << " " << v.size() << " remaining." << std::endl;
     }
 
     return 0;
