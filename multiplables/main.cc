@@ -1,3 +1,4 @@
+#include <boost/lexical_cast.hpp>
 #include <boost/date_time/posix_time/posix_time.hpp>
 #include <boost/program_options.hpp>
 
@@ -44,21 +45,26 @@ int main(int argc, char *argv[])
 		}
     }
 
+    auto game_begin = pt::microsec_clock::local_time();
     while (v.size() > 0) {
         int selection = std::uniform_int_distribution<int>{0, ((int)v.size())-1}(rng);
         factor_pair p = v[selection];
         int correct_answer = p.left * p.right;
+        std::string response;
         int answer;
         auto before = pt::microsec_clock::local_time();
         std::cout << p.left << " x " << p.right << std::endl;
-        std::cin >> answer;
+        std::cin >> response;
+        try {
+            answer = boost::lexical_cast<int>(response);
+        } catch (boost::bad_lexical_cast &e) {
+            std::cout << "Whatever." << std::endl;
+            answer = correct_answer - 1;  // Make it count as wrong.
+        }
         auto delay = pt::microsec_clock::local_time() - before;
         if (std::cin.eof())
             break;
-        if (!std::cin.good()) {
-            std::cout << "Whatever." << std::endl;
-            continue;
-        }
+
         std::string feedback("Correct!");
         if (answer != correct_answer) {
             feedback = "NO!";
@@ -73,5 +79,7 @@ int main(int argc, char *argv[])
         std::cout << feedback << " " << v.size() << " remaining." << std::endl;
     }
 
+    std::cout << "You played for " << (pt::microsec_clock::local_time() - game_begin).total_seconds()
+                                   << " seconds." << std::endl;
     return 0;
 }
