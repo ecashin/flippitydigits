@@ -1,3 +1,7 @@
+#include <boost/program_options.hpp>
+
+namespace po = boost::program_options;
+
 #include <iostream>
 #include <random>
 
@@ -8,16 +12,31 @@ public:
     factor_pair(int l, int r) :left(l), right(r) {}
 };
 
-int main(void)
+int main(int argc, char *argv[])
 {
+    int max_factor;
+    po::options_description description("allowed options");
+    description.add_options()
+            ("help", "print help message")
+            ("max", po::value<int>(&max_factor)->default_value(12), "maximum factor");
+    po::variables_map vm;
+    po::store(po::parse_command_line(argc, argv, description), vm);
+    po::notify(vm);
+
+    if (vm.count("help")) {
+        std::cout << description << std::endl;
+        return 0;
+    }
+
     std::vector<factor_pair> v;
     std::default_random_engine rng;
 
-    for (int i = 0; i <= 12; ++i) {
-	for (int j = 0; j <= 12; ++j) {
-	    for (int k = 0; k < i+j; k++)
-		v.push_back(factor_pair(i, j));
-	}
+    for (int i = 0; i <= max_factor; ++i) {
+		for (int j = 0; j <= max_factor; ++j) {
+		    for (int k = 0; k < i+j; k++) {
+				v.push_back(factor_pair(i, j));
+			}
+		}
     }
 
     for (;;) {
