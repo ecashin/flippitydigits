@@ -67,7 +67,7 @@ int main(int argc, char *argv[])
 
         std::string feedback("Correct!");
         if (answer != correct_answer) {
-            feedback = "NO!";
+            feedback = "NO!  The answer is " + correct_answer;
             v.push_back(p);
         } else if (delay.total_milliseconds() <= max_seconds * 1000) {
             std::cout << "You're fast!" << std::endl;
