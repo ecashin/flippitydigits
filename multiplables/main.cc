@@ -1,6 +1,8 @@
 #include <boost/lexical_cast.hpp>
 #include <boost/date_time/posix_time/posix_time.hpp>
 #include <boost/program_options.hpp>
+#include <boost/date_time/posix_time/posix_time.hpp>
+#include <boost/thread/thread.hpp>
 #include <SFML/Audio.hpp>
 
 namespace po = boost::program_options;
@@ -11,6 +13,7 @@ namespace pt = boost::posix_time;
 
 #include "sounds/242501__gabrielaraujo__powerup-success.cc"
 #include "sounds/253886__themusicalnomad__negative-beeps.cc"
+#include "sounds/202498__xtrsounder__small-crowd-cheering-and-clapping-at-party-2.cc"
 
 class factor_pair {
 public:
@@ -23,17 +26,27 @@ class Player {
 private:
     sf::SoundBuffer correct_buf;
     sf::SoundBuffer incorrect_buf;
+    sf::SoundBuffer cheering_buf;
     sf::Sound correct;
     sf::Sound incorrect;
+    sf::Sound cheering;
 public:
     Player() {
         correct_buf.loadFromMemory(success_wav, success_wav_len);
         incorrect_buf.loadFromMemory(fail_wav, fail_wav_len);
+        cheering_buf.loadFromMemory(cheering_wav, cheering_wav_len);
         correct.setBuffer(correct_buf);
         incorrect.setBuffer(incorrect_buf);
+        cheering.setBuffer(cheering_buf);
     }
     void right() { correct.play(); }
     void wrong() { incorrect.play(); }
+    void acclaim() { cheering.play(); }
+    bool playing() {
+        return correct.getStatus() == sf::SoundSource::Status::Playing
+	    || incorrect.getStatus() == sf::SoundSource::Status::Playing
+	    || cheering.getStatus() == sf::SoundSource::Status::Playing;
+    }
 };
 
 int main(int argc, char *argv[])
@@ -103,6 +116,12 @@ int main(int argc, char *argv[])
         std::cout << feedback << " " << v.size() << " remaining." << std::endl;
     }
 
+    if (v.size() == 0) {
+	player.acclaim();
+        while (player.playing()) {
+	    boost::this_thread::sleep(boost::posix_time::milliseconds(100));
+	}
+    }
     std::cout << "You played for " << (pt::microsec_clock::local_time() - game_begin).total_seconds()
                                    << " seconds." << std::endl;
     return 0;
