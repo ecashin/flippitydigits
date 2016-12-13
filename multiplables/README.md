@@ -1,7 +1,13 @@
 # Multiplables: Multiplication Tables Drills
 
-Requires boost library.
+Requires boost library, SFML library, and cmake.  What a mess for the
+poor user trying to build this!  Sorry.
 
-Build with,
+Maybe this will work:
 
-    make BOOST=/path/to/boost
+* Install your favorite SFML library
+* Install your favorite boost library
+* Edit CMakeLists.txt to update the include directories
+* Edit CMakeLists.txt to update the library directories
+* Run `cmake .` (Note the space and dot after cmake.)
+* Run `make`

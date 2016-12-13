@@ -1,12 +1,16 @@
 #include <boost/lexical_cast.hpp>
 #include <boost/date_time/posix_time/posix_time.hpp>
 #include <boost/program_options.hpp>
+#include <SFML/Audio.hpp>
 
 namespace po = boost::program_options;
 namespace pt = boost::posix_time;
 
 #include <iostream>
 #include <random>
+
+#include "sounds/242501__gabrielaraujo__powerup-success.cc"
+#include "sounds/253886__themusicalnomad__negative-beeps.cc"
 
 class factor_pair {
 public:
@@ -15,8 +19,26 @@ public:
     factor_pair(int l, int r) :left(l), right(r) {}
 };
 
+class Player {
+private:
+    sf::SoundBuffer correct_buf;
+    sf::SoundBuffer incorrect_buf;
+    sf::Sound correct;
+    sf::Sound incorrect;
+public:
+    Player() {
+        correct_buf.loadFromMemory(success_wav, success_wav_len);
+        incorrect_buf.loadFromMemory(fail_wav, fail_wav_len);
+        correct.setBuffer(correct_buf);
+        incorrect.setBuffer(incorrect_buf);
+    }
+    void right() { correct.play(); }
+    void wrong() { incorrect.play(); }
+};
+
 int main(int argc, char *argv[])
 {
+    Player player{};
     int max_factor;
     double max_seconds;
     po::options_description description("allowed options");
@@ -69,12 +91,14 @@ int main(int argc, char *argv[])
         if (answer != correct_answer) {
             feedback = "NO!  The answer is " + correct_answer;
             v.push_back(p);
+            player.wrong();
         } else if (delay.total_milliseconds() <= max_seconds * 1000) {
             std::cout << "You're fast!" << std::endl;
             v.erase(std::remove_if(v.begin(), v.end(), [p](const factor_pair& f) {
                 return (p.left == f.left && p.right == f.right) ||
                         (p.left == f.right && p.right == f.left);
             }), v.end());
+            player.right();
         }
         std::cout << feedback << " " << v.size() << " remaining." << std::endl;
     }
