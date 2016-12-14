@@ -44,8 +44,8 @@ public:
     void acclaim() { cheering.play(); }
     bool playing() {
         return correct.getStatus() == sf::SoundSource::Status::Playing
-	    || incorrect.getStatus() == sf::SoundSource::Status::Playing
-	    || cheering.getStatus() == sf::SoundSource::Status::Playing;
+            || incorrect.getStatus() == sf::SoundSource::Status::Playing
+            || cheering.getStatus() == sf::SoundSource::Status::Playing;
     }
 };
 
@@ -73,11 +73,11 @@ int main(int argc, char *argv[])
     std::default_random_engine rng;
 
     for (int i = 0; i <= max_factor; ++i) {
-		for (int j = 0; j <= max_factor; ++j) {
-		    for (int k = 0; k < i+j; k++) {
-				v.push_back(factor_pair(i, j));
-			}
-		}
+                for (int j = 0; j <= max_factor; ++j) {
+                    for (int k = 0; k < i+j; k++) {
+                                v.push_back(factor_pair(i, j));
+                        }
+                }
     }
 
     auto game_begin = pt::microsec_clock::local_time();
@@ -100,29 +100,39 @@ int main(int argc, char *argv[])
         if (std::cin.eof())
             break;
 
-        std::string feedback("Correct!");
         if (answer != correct_answer) {
-            feedback = "NO!  The answer is " + correct_answer;
+            std::cout << "NO!  The answer is " << correct_answer << ".  ";
             v.push_back(p);
             player.wrong();
-        } else if (delay.total_milliseconds() <= max_seconds * 1000) {
-            std::cout << "You're fast!" << std::endl;
-            v.erase(std::remove_if(v.begin(), v.end(), [p](const factor_pair& f) {
-                return (p.left == f.left && p.right == f.right) ||
-                        (p.left == f.right && p.right == f.left);
-            }), v.end());
-            player.right();
+        } else {
+            if (delay.total_milliseconds() <= max_seconds * 1000) {
+                std::cout << "You're fast!" << std::endl;
+                v.erase(
+                    std::remove_if(
+                        v.begin(),
+                        v.end(),
+                        [p](const factor_pair& f) {
+                            return (p.left == f.left && p.right == f.right) ||
+                                (p.left == f.right && p.right == f.left);
+                        }),
+                    v.end());
+                player.right();
+            }
+            std::cout << "Correct!  ";
         }
-        std::cout << feedback << " " << v.size() << " remaining." << std::endl;
+        std::cout << v.size() << " remaining." << std::endl;
     }
 
     if (v.size() == 0) {
-	player.acclaim();
+        player.acclaim();
         while (player.playing()) {
-	    boost::this_thread::sleep(boost::posix_time::milliseconds(100));
-	}
+            boost::this_thread::sleep(boost::posix_time::milliseconds(100));
+        }
     }
-    std::cout << "You played for " << (pt::microsec_clock::local_time() - game_begin).total_seconds()
-                                   << " seconds." << std::endl;
+    std::cout
+        << "You played for "
+        << (pt::microsec_clock::local_time() - game_begin).total_seconds()
+        << " seconds."
+        << std::endl;
     return 0;
 }
