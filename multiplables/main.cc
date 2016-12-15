@@ -13,7 +13,7 @@ namespace pt = boost::posix_time;
 
 #include "sounds/242501__gabrielaraujo__powerup-success.cc"
 #include "sounds/253886__themusicalnomad__negative-beeps.cc"
-#include "sounds/202498__xtrsounder__small-crowd-cheering-and-clapping-at-party-2.cc"
+#include "sounds/202498__xtrsounder__small-crowd-cheering-and-clapping-at-party-2.h"
 
 class factor_pair {
 public:
@@ -70,7 +70,7 @@ int main(int argc, char *argv[])
     std::cout << "seconds: " << max_seconds << std::endl;
 
     std::vector<factor_pair> v;
-    std::default_random_engine rng;
+    std::default_random_engine rng(std::random_device{}());
 
     for (int i = 0; i <= max_factor; ++i) {
                 for (int j = 0; j <= max_factor; ++j) {
