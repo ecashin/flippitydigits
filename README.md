@@ -15,7 +15,7 @@ dependencies.
 
 You can find a demo of the web version here:
 
-  http://cashinworks.com/flippitydigits/
+  https://ecashin.github.io/flippitydigits/
 
 ... but please note that the CSS for text transforms don't always work
 correctly on mobile devices.  On Android Chrome and Android FireFox,
