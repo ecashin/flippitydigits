@@ -1,12 +1,40 @@
 PROG = flippity
-PROGS := $(basename $(wildcard *.cpp))
-LIBS = -lX11 -pthread $(shell pkg-config --libs allegro)
-# CXX = /opt/gcc-4.9.0/bin/g++
+FLOW = $$HOME/git/flow/bin/flow
+JSDIR := static/js
+CSSDIR := static/css
+.PHONY: show all srv watch clean
 
-all: $(PROGS)
+WATCH_CHECK = kill -0 `cat watcher.pid`
 
-%: %.cpp
-	$(CXX) -std=c++11 -Wall -o $@ $< $(LIBS)
+all: $(CSSDIR)/flippity.css
+	if ! $(WATCH_CHECK); then \
+	  make watch & \
+	  sleep 1; \
+	fi
+	while ! $(WATCH_CHECK); do \
+	  sleep 1; \
+	done
+	@echo The jsx watcher is running.  Stop with '"make stopwatch"'.
 
-run: $(PROG)
-	LD_LIBRARY_PATH=/opt/gcc-4.9.0/lib64 ./$(PROG)
+srv:
+	python -mSimpleHTTPServer
+
+show:
+	echo $(PROGS)
+
+stopwatch:
+	test -r watcher.pid
+	kill `cat watcher.pid`
+
+watch:
+	jsx --strip-types --harmony --watch src $(JSDIR) & \
+	  echo $$! > watcher.pid
+
+$(JSDIR)/%.js: src/%.js
+	$(FLOW) check $<
+
+clean:
+	rm -f $(CSSDIR)/flippity.css $(JSDIR)/*.js
+
+$(CSSDIR)/%.css: %.less
+	node_modules/.bin/lessc $< $@

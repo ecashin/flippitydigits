@@ -1,3 +1,5 @@
+watcher.pid
+node_modules
 flippity
 *~
 a.out
